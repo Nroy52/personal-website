@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Brand palette (hex) */
+  --bg-dark: #0B0B0D;
+  --bg-card: #14161B;
+  --text: #E8E8EC;
+  --gold: #CDA434;
+  --gold-dark: #A5862A;
+  --blue: #4169E1;
+  --subtext: #B3B3B8;
+  --stroke: #1F2128;
+}
+
+html, body, #root {
+  height: 100%;
+  background-color: #000;
+}
+
+.gold-glow {
+  text-shadow: 0 0 20px hsla(var(--gold) / 0.35);
+}
+
+.hover-lift {
+  @apply transition-transform duration-150;
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+}
