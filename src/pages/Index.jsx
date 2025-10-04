@@ -1,4 +1,4 @@
-﻿import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import jprLogo from "@/assets/jaisirlogo.png";
 import shadowImage from "@/assets/shadow-image.jpeg";
@@ -70,12 +70,12 @@ export default function Index() {
           {/* CTAs */}
           <div className="pt-10 flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button
-              onClick={() => navigate("/auth")}
+              onClick={() => navigate("/vision")}
               size="lg"
               className="px-10 py-6 text-lg font-semibold shadow-lg"
               style={{ background: COLORS.gold, color: "#000" }}
             >
-              Connect with Anuja
+              Explore the Vision
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>

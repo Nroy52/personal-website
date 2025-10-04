@@ -1,128 +1,147 @@
 import { useState } from "react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import jprLogo from "@/assets/jaisirlogo.png";
 
-const pillarsData = [
-  { icon: "fa-solid fa-tooth", title: "Dentistry", desc: "Global leader in implantology and laser dentistry." },
-  { icon: "fa-solid fa-globe", title: "Entrepreneurship", desc: "Founder & CEO of multi-sector enterprises." },
-  { icon: "fa-solid fa-robot", title: "AI Innovation", desc: "Building next-gen AI assistants and platforms." },
-  { icon: "fa-solid fa-medal", title: "Leadership", desc: "Military discipline shaping global ventures." },
-  { icon: "fa-solid fa-cart-shopping", title: "Market", desc: "Curating premium marketplaces worldwide." },
-  { icon: "fa-solid fa-city", title: "Real Estate", desc: "Designing eco-villages and smart cities." },
-  { icon: "fa-solid fa-graduation-cap", title: "Education", desc: "Mentoring future leaders and talents." },
-  { icon: "fa-solid fa-podcast", title: "Podcasts", desc: "Sharing culture and history via media." },
-  { icon: "fa-solid fa-seedling", title: "Philanthropy", desc: "Transforming communities with social projects." },
-  { icon: "fa-solid fa-chess-king", title: "Strategy", desc: "Architecting visions for societies and businesses." },
-];
+const COLORS = {
+  bgDark: "#0B0B0D",
+  bgCard: "#14161B",
+  text: "#E8E8EC",
+  gold: "#CDA434",
+  blue: "#4169E1",
+  subtext: "#B3B3B8",
+  stroke: "#1F2128",
+};
+
+const collapsedHeight = "max-h-16"; // keeps icon + title visible when collapsed
+const expandedHeight = "max-h-40"; // allows description to slide in
 
 export default function Vision() {
-  const [active, setActive] = useState(null);
+  const [activePillar, setActivePillar] = useState(null);
+
+  const pillarsLeft = [
+    { icon: "fa-tooth", title: "Dentistry", desc: "Global leader in implantology and laser dentistry." },
+    { icon: "fa-globe", title: "Entrepreneurship", desc: "Founder & CEO of multi-sector enterprises." },
+    { icon: "fa-robot", title: "AI Innovation", desc: "Building next-gen AI assistants and platforms." },
+    { icon: "fa-medal", title: "Leadership", desc: "Military discipline shaping global ventures." },
+    { icon: "fa-cart-shopping", title: "Market", desc: "Curating premium marketplaces worldwide." },
+  ];
+
+  const pillarsRight = [
+    { icon: "fa-city", title: "Real Estate", desc: "Designing eco-villages and smart cities." },
+    { icon: "fa-graduation-cap", title: "Education", desc: "Mentoring future leaders and talents." },
+    { icon: "fa-podcast", title: "Podcasts", desc: "Sharing culture and history via media." },
+    { icon: "fa-seedling", title: "Philanthropy", desc: "Transforming communities with social projects." },
+    { icon: "fa-chess-king", title: "Strategy", desc: "Architecting visions for societies and businesses." },
+  ];
+
+  const togglePillar = (title) => {
+    setActivePillar((prev) => (prev === title ? null : title));
+  };
+
+  const renderPillar = (pillar) => {
+    const isActive = activePillar === pillar.title;
+
+    return (
+      <div
+        key={pillar.title}
+        onClick={() => togglePillar(pillar.title)}
+        className={`cursor-pointer rounded-xl border p-4 transition-all duration-300 overflow-hidden text-center shadow-md hover:shadow-lg ${
+          isActive ? expandedHeight : collapsedHeight
+        }`}
+        style={{ background: COLORS.bgCard, borderColor: COLORS.stroke }}
+      >
+        <div className="flex items-center justify-center gap-3">
+          <i className={`fa-solid ${pillar.icon} text-lg`} style={{ color: COLORS.gold }} />
+          <h3 className="text-base font-semibold" style={{ color: COLORS.text }}>
+            {pillar.title}
+          </h3>
+        </div>
+        <p
+          className={`text-sm mt-2 text-center transition-opacity duration-300 ${
+            isActive ? "opacity-100" : "opacity-0"
+          }`}
+          style={{ color: COLORS.subtext }}
+        >
+          {pillar.desc}
+        </p>
+      </div>
+    );
+  };
 
   return (
-    <div className="min-h-screen relative flex flex-col bg-[hsl(var(--bg-dark))] text-[hsl(var(--text))]">
-      {/* subtle gold backdrop */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsla(var(--gold)/0.08),transparent_60%)]" />
-
-      {/* NAVBAR */}
-      <nav className="fixed top-0 left-0 right-0 h-[var(--nav-h)] flex items-center justify-center bg-[hsla(var(--bg-card)/0.9)] backdrop-blur-sm border-b border-[hsl(var(--stroke))] z-50">
-        <img
-          src={jprLogo}
-          alt="Logo"
-          className="w-12 h-12 rounded-full border-2"
-          style={{ borderColor: "hsl(var(--gold))" }}
-        />
+    <div
+      className="min-h-screen flex flex-col"
+      style={{ backgroundColor: COLORS.bgDark, color: COLORS.text }}
+    >
+      <nav
+        className="fixed top-0 left-0 right-0 h-[70px] flex items-center justify-end px-6 border-b z-50"
+        style={{ background: `${COLORS.bgCard}f2`, borderColor: COLORS.stroke }}
+      >
         <Button
-          size="sm"
-          className="absolute right-5"
-          style={{ background: "hsl(var(--gold))", color: "hsl(var(--bg-dark))" }}
+          className="px-6 py-2 font-semibold"
+          style={{ background: COLORS.gold, color: COLORS.bgDark }}
         >
           Login
         </Button>
       </nav>
 
-      {/* HERO */}
-      <main className="flex-1 flex flex-col items-center justify-between text-center mt-[var(--nav-h)] p-4">
-        <div>
-          <h1 className="text-3xl font-bold" style={{ color: "hsl(var(--gold))" }}>
-            Jai Prathap Reddy
+      <main className="flex-1 mt-[70px] flex flex-col items-center text-center px-4 py-10 gap-10">
+        <div className="w-full max-w-md mx-auto">
+          <img
+            src={jprLogo}
+            alt="Logo"
+            className="w-28 h-28 md:w-40 md:h-40 mx-auto"
+          />
+        </div>
+
+        <div className="w-full max-w-2xl mx-auto space-y-2">
+          <h1
+            className="text-3xl md:text-5xl font-bold"
+            style={{ color: COLORS.gold }}
+          >
+            Anuja Reddy
           </h1>
-          <p style={{ color: "hsl(var(--subtext))" }}>Strategic partner to the world's visionaries</p>
-          <p style={{ color: "hsl(var(--subtext))" }}>I do not chase scale. I sculpt legacy.</p>
+          <p className="text-base md:text-xl" style={{ color: COLORS.subtext }}>
+            Strategic partner to the world's visionaries
+          </p>
+          <p className="text-base md:text-xl" style={{ color: COLORS.subtext }}>
+            I do not chase scale. I sculpt legacy.
+          </p>
         </div>
 
-        {/* Pillars */}
-        <div className="flex flex-col lg:flex-row gap-4 max-w-5xl w-full my-6">
-          {/* Left column */}
-          <div className="flex-1 flex flex-col gap-3">
-            {pillarsData.slice(0, 5).map((pillar, idx) => (
-              <div
-                key={idx}
-                className={`bg-[hsla(var(--bg-card)/0.9)] border rounded-xl p-3 text-center cursor-pointer transition-all overflow-hidden shadow-md hover:shadow-lg ${
-                  active === pillar.title ? "max-h-40" : "max-h-12"
-                }`}
-                style={{ borderColor: "hsl(var(--stroke))" }}
-                onClick={() => setActive(active === pillar.title ? null : pillar.title)}
-              >
-                <i className={`${pillar.icon}`} style={{ color: "hsl(var(--gold))" }} />
-                <h3 className="text-sm font-semibold">{pillar.title}</h3>
-                <p
-                  className={`text-xs transition-opacity ${active === pillar.title ? "opacity-100" : "opacity-0"}`}
-                  style={{ color: "hsl(var(--subtext))" }}
-                >
-                  {pillar.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          {/* Right column */}
-          <div className="flex-1 flex flex-col gap-3">
-            {pillarsData.slice(5).map((pillar, idx) => (
-              <div
-                key={idx}
-                className={`bg-[hsla(var(--bg-card)/0.9)] border rounded-xl p-3 text-center cursor-pointer transition-all overflow-hidden shadow-md hover:shadow-lg ${
-                  active === pillar.title ? "max-h-40" : "max-h-12"
-                }`}
-                style={{ borderColor: "hsl(var(--stroke))" }}
-                onClick={() => setActive(active === pillar.title ? null : pillar.title)}
-              >
-                <i className={`${pillar.icon}`} style={{ color: "hsl(var(--gold))" }} />
-                <h3 className="text-sm font-semibold">{pillar.title}</h3>
-                <p
-                  className={`text-xs transition-opacity ${active === pillar.title ? "opacity-100" : "opacity-0"}`}
-                  style={{ color: "hsl(var(--subtext))" }}
-                >
-                  {pillar.desc}
-                </p>
-              </div>
-            ))}
-          </div>
+        <div className="w-full max-w-5xl mx-auto grid gap-4 sm:grid-cols-1 lg:grid-cols-2">
+          {pillarsLeft.map(renderPillar)}
+          {pillarsRight.map(renderPillar)}
         </div>
 
-        <div className="my-4">
+        <div className="w-full max-w-sm mx-auto">
           <Button
             variant="outline"
-            className="border-2"
-            style={{ borderColor: "hsl(var(--gold))", color: "hsl(var(--gold))", background: "transparent" }}
+            className="w-full px-8 py-4 font-semibold text-lg border-2"
+            style={{ borderColor: COLORS.gold, color: COLORS.gold, background: "transparent" }}
           >
-            Login
+            Signup
+            <ArrowRight className="ml-2 inline h-5 w-5" />
           </Button>
         </div>
       </main>
 
-      {/* FOOTER */}
-      <footer className="h-[var(--footer-h)]" style={{ background: "hsl(var(--bg-card))", borderTop: "1px solid hsl(var(--stroke))" }}>
-        <div className="text-center text-sm" style={{ color: "hsl(var(--subtext))" }}>
-          <div><strong>Jai Reddy HQ</strong> | London, UK</div>
-          <div>Email: hello@jaireddy.com | Phone: +44 123 456 789</div>
-          <div className="flex justify-center gap-3 mt-1" style={{ color: "hsl(var(--gold))" }}>
-            <a href="#"><i className="fab fa-linkedin" /></a>
-            <a href="#"><i className="fab fa-twitter" /></a>
-            <a href="#"><i className="fab fa-facebook" /></a>
-            <a href="#"><i className="fab fa-instagram" /></a>
-          </div>
-          <div className="mt-1">&copy; 2025 Dr Jai Prathap Reddy. All Rights Reserved.</div>
+      <footer
+        className="h-20 flex flex-col justify-center items-center text-center text-sm border-t px-4"
+        style={{ background: COLORS.bgCard, borderColor: COLORS.stroke, color: COLORS.subtext }}
+      >
+        <div>
+          <strong>Anuja Reddy HQ</strong> | London, UK
         </div>
+        <div>Email: hello@anujareddy.com | Phone: +44 123 456 789</div>
+        <div className="flex gap-3 mt-1">
+          <i className="fab fa-linkedin text-lg" style={{ color: COLORS.gold }} />
+          <i className="fab fa-twitter text-lg" style={{ color: COLORS.gold }} />
+          <i className="fab fa-facebook text-lg" style={{ color: COLORS.gold }} />
+          <i className="fab fa-instagram text-lg" style={{ color: COLORS.gold }} />
+        </div>
+        <div className="mt-1">&copy; 2025 Anuja Reddy. All Rights Reserved.</div>
       </footer>
     </div>
   );
